@@ -5,7 +5,7 @@ const association = async () => {
     try {
         Note;
         // db.sync({ force: true });
-        db.sync();
+        await db.sync();
     } catch (error) {
         console.log(error.message);
     }
