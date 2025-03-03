@@ -8,7 +8,11 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: ["https://sevikoa3.github.io", "http://localhost:5173"],
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    credentials: true
+}));
 
 app.use(express.json());
 
