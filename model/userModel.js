@@ -1,27 +1,24 @@
 import db from "../util/connectDB.js";
 
-const Note = db.define("note", {
+const User = db.define("users", {
     id: {
         type: db.Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    userId: {
-        type: db.Sequelize.INTEGER,
+    username: {
+        type: db.Sequelize.STRING,
         allowNull: false,
-        references: {
-            model: 'users',
-            key: 'id'
-        }
+        unique: true
     },
-    title: {
+    password: {
         type: db.Sequelize.STRING,
         allowNull: false
     },
-    content: {
+    refresh_token: {
         type: db.Sequelize.TEXT,
-        allowNull: false
-    }
-});
+        allowNull: true
+    },
+})
 
-export default Note;
+export default User;
