@@ -47,8 +47,8 @@ const login = async (req, res) => {
 
         const refreshToken = jwt.sign(
             safeUserData,
-            process.env.JWT_SECRET,
-            { expiresIn: '3d' }
+            process.env.JWT_REFRESH_SECRET,
+            { expiresIn: '2d' }
         );
 
         await User.update(
@@ -75,7 +75,7 @@ const login = async (req, res) => {
     }
 }
 
-const register = async (req, res) => {
+const createUser = async (req, res) => {
     try {
         const { username, password } = req.body;
 
@@ -117,7 +117,7 @@ const register = async (req, res) => {
 
         const refreshToken = jwt.sign(
             safeUserData,
-            process.env.JWT_SECRET,
+            process.env.JWT_REFRESH_SECRET,
             { expiresIn: '3d' }
         );
 
@@ -145,5 +145,5 @@ const register = async (req, res) => {
 
 export {
     login,
-    register
+    createUser
 }

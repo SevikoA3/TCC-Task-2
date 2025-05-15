@@ -13,8 +13,8 @@ const association = async () => {
             foreignKey: "userId",
             targetKey: "id",
         });
-        db.sync({ force: true });
-        // await db.sync();
+        // db.sync({ force: true });
+        await db.sync();
     } catch (error) {
         console.log(error.message);
     }
