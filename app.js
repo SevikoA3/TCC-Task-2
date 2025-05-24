@@ -1,19 +1,21 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import NoteRouter from './router/noteRoutes.js';
-import UserRouter from './router/userRouters.js';
-import association from './util/assocDB.js';
-import cookieParser from 'cookie-parser';
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import NoteRouter from "./router/noteRoutes.js";
+import UserRouter from "./router/userRouters.js";
+import association from "./util/assocDB.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
 
-app.use(cors({
-    origin: "http://localhost:8080",
-    credentials: true
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://sevikoa3.github.io"],
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 
@@ -23,17 +25,19 @@ app.use(NoteRouter);
 
 app.use(UserRouter);
 
-app.get('/', (req, res) => {
-    res.status(200).json({
-        message: 'Hello World!'
-    });
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Hello World!",
+  });
 });
 
 const PORT = process.env.PORT;
-association().then(() => {
+association()
+  .then(() => {
     app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
+      console.log(`Server is running on port ${PORT}`);
     });
-}).catch((error) => {
+  })
+  .catch((error) => {
     console.log(error.message);
-});
+  });

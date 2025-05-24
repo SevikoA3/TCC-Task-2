@@ -20,8 +20,12 @@ export const getAccessToken = async (req, res) => {
       where: { refresh_token: refreshToken },
     });
 
-    // Kalo user gapunya refresh token, masuk ke catch,
-    // kasih message "Refresh token tidak ada" (401)
+    // Fix: check if user is null before accessing user.refresh_token
+    if (!user) {
+      const error = new Error("Refresh token tidak ada");
+      error.statusCode = 401;
+      throw error;
+    }
     if (!user.refresh_token) {
       const error = new Error("Refresh token tidak ada");
       error.statusCode = 401;
@@ -47,11 +51,9 @@ export const getAccessToken = async (req, res) => {
           const { password: _, refresh_token: __, ...safeUserData } = userPlain;
 
           // Buat access token baru (expire selama 30 detik)
-          const accessToken = jwt.sign(
-            safeUserData,
-            process.env.JWT_SECRET,
-            { expiresIn: "30s" }
-          );
+          const accessToken = jwt.sign(safeUserData, process.env.JWT_SECRET, {
+            expiresIn: "30s",
+          });
 
           // Kirim respons sukses + kasih access token yg udah dibikin tadi
           return res.status(200).json({
