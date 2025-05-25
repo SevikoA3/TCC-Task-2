@@ -72,6 +72,55 @@ const login = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  try {
+    const refreshToken = req.cookies.refresh_token;
+
+    if (!refreshToken) {
+      const error = new Error("No refresh token provided");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const user = await User.findOne({
+      where: {
+        refresh_token: refreshToken,
+      },
+    });
+
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const userId = user.id;
+
+    await User.update(
+      { refresh_token: null },
+      {
+        where: {
+          id: userId,
+        },
+      }
+    );
+
+    res.clearCookie("refresh_token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+
+    return res.status(200).json({
+      message: "Logout successful",
+    });
+  } catch (error) {
+    return res.status(error.statusCode || 500).json({
+      message: error.message || "Internal server error",
+    });
+  }
+};
+
 const createUser = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -142,4 +191,4 @@ const createUser = async (req, res) => {
   }
 };
 
-export { login, createUser };
+export { login, logout, createUser };
