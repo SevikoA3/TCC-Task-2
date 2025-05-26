@@ -2,7 +2,12 @@ import Note from "../model/noteModel.js";
 
 const getNotes = async (req, res) => {
   try {
-    Note.findAll().then((notes) => {
+    console.log(req.userId);
+    Note.findAll({
+      where: {
+        userId: req.userId,
+      },
+    }).then((notes) => {
       res.status(200).json({
         message: "Notes retrieved successfully",
         notes: notes,
