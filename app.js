@@ -16,6 +16,7 @@ app.use(
       "http://localhost:5173",
       "https://sevikoa3.github.io",
       "https://sevikofe-938071808488.asia-southeast2.run.app",
+      "https://sevikofe-vmg5pljvnq-et.a.run.app",
     ],
     credentials: true,
   })
