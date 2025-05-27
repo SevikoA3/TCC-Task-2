@@ -12,7 +12,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://sevikoa3.github.io"],
+    origin: [
+      "http://localhost:5173",
+      "https://sevikoa3.github.io",
+      "https://sevikofe-938071808488.asia-southeast2.run.app",
+    ],
     credentials: true,
   })
 );
