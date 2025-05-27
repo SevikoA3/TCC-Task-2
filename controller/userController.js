@@ -39,7 +39,7 @@ const login = async (req, res) => {
     const { password: _, refresh_token: __, ...safeUserData } = userPlain;
 
     const accessToken = jwt.sign(safeUserData, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "30s",
     });
 
     const refreshToken = jwt.sign(
@@ -160,13 +160,13 @@ const createUser = async (req, res) => {
     } = newUser.toJSON();
 
     const accessToken = jwt.sign(safeUserData, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "30s",
     });
 
     const refreshToken = jwt.sign(
       safeUserData,
       process.env.JWT_REFRESH_SECRET,
-      { expiresIn: "3d" }
+      { expiresIn: "2d" }
     );
 
     // update user with refresh token
